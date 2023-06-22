@@ -13,7 +13,7 @@ namespace ModName.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Virtaul Insanity");
-			Tooltip.SetDefault("Future's made of virtual insanity");
+			// Tooltip.SetDefault("Future's made of virtual insanity");
 		}
 
 		public override void SetDefaults()
