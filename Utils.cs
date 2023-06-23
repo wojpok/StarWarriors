@@ -26,4 +26,10 @@ namespace ModName {
         }
 
     }
+
+    internal class T {
+        public static string ParseTooltips(List<string> xs) {
+            return xs.Aggregate("", (acc, x) => $"{x}\n{acc}");
+        }
+    }
 }

@@ -14,7 +14,10 @@ namespace ModName.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Virtaul Insanity");
-			Tooltip.SetDefault("Future's made of virtual insanit");
+            Tooltip.SetDefault(T.ParseTooltips(new() {
+				"Right click to summon huge commet",
+				"A gift from heaven",
+			}));
 		}
 
 		bool mode = false;
