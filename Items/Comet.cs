@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using System;
 using Terraria.Graphics.CameraModifiers;
+using Terraria.Audio;
 
 namespace ModName.Items {
 	public class Comet : ModProjectile {
@@ -133,9 +134,15 @@ namespace ModName.Items {
 				}
 			}*/
 
-			Projectile.ExplodeTiles(V.V2(Projectile.ai[0], Projectile.ai[1]), (int) blastRadius, minTileX, maxTileX, minTileY, maxTileY, true);
+			// Projectile.ExplodeTiles(V.V2(Projectile.ai[0], Projectile.ai[1]), (int) blastRadius, minTileX, maxTileX, minTileY, maxTileY, true);
 
 			// Main.NewText($"{V.V2(Projectile.ai[0], Projectile.ai[1])}");
+			//Main.NewText($"{ModSound.Pipe.Volume}");
+			//ModSound.Pipe.Volume = 10f;
+			//Main.NewText($"{ModSound.Pipe.Volume}");
+
+			SoundEngine.PlaySound(ModSound.Pipe, V.V2(Projectile.ai[0], Projectile.ai[1]));
+			
 
 			Vector2 origin = V.V2(Projectile.ai[0], Projectile.ai[1]);
 			foreach (var npc in Main.npc) {
