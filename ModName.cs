@@ -20,6 +20,6 @@ namespace StarWarriors {
     }
 
     class ModSound {
-        public static SoundStyle Pipe = new("ModName/Audio/pipe");
+        public static SoundStyle Pipe = new("StarWarriors/Assets/Audio/pipe");
     }
 }
