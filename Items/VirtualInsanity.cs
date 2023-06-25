@@ -14,10 +14,11 @@ namespace StarWarriors.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Virtaul Insanity");
-            Tooltip.SetDefault(T.ParseTooltips(new() {
+			Tooltip.SetDefault(T.ParseTooltips(new() {
 				"Right click to summon huge commet",
 				"A gift from heaven",
 			}));
+
 		}
 
 		bool mode = false;
