@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Biomes.Desert;
 
-namespace ModName.Items
+namespace StarWarriors.Items
 {
 	public class BasicSword : ModItem
 	{

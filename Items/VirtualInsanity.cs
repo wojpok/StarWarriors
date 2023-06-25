@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Biomes.Desert;
 using System.Collections.Generic;
 
-namespace ModName.Items
+namespace StarWarriors.Items
 {
 	public class VirtualInsanity : ModItem
 	{

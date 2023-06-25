@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 using Microsoft.Xna.Framework;
 
-namespace ModName {
+namespace StarWarriors {
     internal class V {
 
         public static Vector2 V2(float a, float b) {

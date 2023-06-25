@@ -7,7 +7,7 @@ using System;
 using Terraria.Graphics.CameraModifiers;
 using Terraria.Audio;
 
-namespace ModName.Items {
+namespace StarWarriors.Items {
 	public class Comet : ModProjectile {
 		public override void SetDefaults() {
 			Projectile.width = 1;
@@ -127,9 +127,7 @@ namespace ModName.Items {
 							if (Main.netMode != NetmodeID.SinglePlayer) {
 								NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
 							}
-						}
-
-						
+						}			
 					}
 				}
 			}*/
@@ -141,7 +139,7 @@ namespace ModName.Items {
 			//ModSound.Pipe.Volume = 10f;
 			//Main.NewText($"{ModSound.Pipe.Volume}");
 
-			SoundEngine.PlaySound(ModSound.Pipe, V.V2(Projectile.ai[0], Projectile.ai[1]));
+			SoundEngine.PlaySound(ModSound.Pipe);
 			
 
 			Vector2 origin = V.V2(Projectile.ai[0], Projectile.ai[1]);

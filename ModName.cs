@@ -12,8 +12,8 @@ using Terraria.ModLoader.IO;
 using Terraria.WorldBuilding;
 using Terraria.Audio;
 
-namespace ModName {
-    public class ModName : Mod {
+namespace StarWarriors {
+    public class StarWarriors : Mod {
         public override void Load() {
             base.Load();
         }

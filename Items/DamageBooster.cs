@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace ModName.Items {
+namespace StarWarriors.Items {
 	[AutoloadEquip(EquipType.Shoes)]
 	public class DamageBooster : ModItem {
 		public override void SetStaticDefaults() {
