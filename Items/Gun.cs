@@ -37,6 +37,8 @@ namespace StarWarriors.Items {
         public override void SetDefaults() {
             base.SetDefaults();
             
+			Item.channel = true;
+
             Item.useTime = 1;
             Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -81,13 +83,33 @@ namespace StarWarriors.Items {
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
 
-            player.channel = true;
+            // player.channel = true;
 
             //Spawn the rod projectile, set the first counter to 30 updates or 1/2 a second
-            Projectile.NewProjectile(source, position, velocity, type, 0, knockback, player.whoAmI, 30f, 0f);
+            Projectile.NewProjectile(
+				source,
+				position, 
+				velocity, 
+				type, 
+				0, 
+				knockback, 
+				player.whoAmI, 
+				30f, 
+				0
+			);
 
             //Spawn the vortex
-            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<GunVisuals>(), damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(
+				source, 
+				position, 
+				velocity, 
+				ModContent.ProjectileType<GunVisuals>(), 
+				damage, 
+				knockback, 
+				player.whoAmI, 
+				(float) (AltMode ? 1 : 0), 
+				0f
+			);
 
             //Makes sure original projectile doesn't spawn
             return false;
@@ -101,11 +123,11 @@ namespace StarWarriors.Items {
         public override string Texture => "StarWarriors/Items/Gun";
 
         public override void SetDefaults() {
-			Projectile.width = 74;
-			Projectile.height = 78;
+			Projectile.width = 40;
+			Projectile.height = 40;
 			Projectile.scale = 1f;
 			Projectile.aiStyle = 0;
-			Projectile.timeLeft = 999999;
+			Projectile.timeLeft = 20;
 			Projectile.friendly = true;
 			Projectile.hostile = false;
 			Projectile.tileCollide = false;
@@ -118,127 +140,49 @@ namespace StarWarriors.Items {
 			DisplayName.SetDefault("Rainbow Devastation Rod");
 		}
 
-		public override void AI() {
-			//Settings for updating on net
-			Vector2 vector22 = Main.player[Projectile.owner].RotatedRelativePoint(Main.player[Projectile.owner].MountedCenter, true);
-			if (Main.myPlayer == Projectile.owner) {
-				if (Main.player[Projectile.owner].channel) {
-					float num263 = Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].shootSpeed * Projectile.scale;
-					Vector2 vector23 = vector22;
-					float num264 = (float)Main.mouseX + Main.screenPosition.X - vector23.X;
-					float num265 = (float)Main.mouseY + Main.screenPosition.Y - vector23.Y;
-					if (Main.player[Projectile.owner].gravDir == -1f) {
-						num265 = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - vector23.Y;
-					}
-					float num266 = (float)Math.Sqrt((double)(num264 * num264 + num265 * num265));
-					num266 = (float)Math.Sqrt((double)(num264 * num264 + num265 * num265));
-					num266 = num263 / num266;
-					num264 *= num266;
-					num265 *= num266;
-					if (num264 != Projectile.velocity.X || num265 != Projectile.velocity.Y) {
-						Projectile.netUpdate = true;
-					}
-					Projectile.velocity.X = num264;
-					Projectile.velocity.Y = num265;
+        public override void AI() {
+
+			Player player = Main.player[Projectile.owner];
+			Vector2 mountedCenter = player.RotatedRelativePoint(player.MountedCenter);
+
+			Projectile.frame = (int) Projectile.ai[0];
+
+			//Using Timers for implementing shoot cooldowns
+			bool cooldown = true;
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 10) {
+				Projectile.ai[1] = 0;
+				cooldown = false;
+			}
+
+			//If cooldown is over and we inside current player(for multiplayer)
+			if (!cooldown && Main.myPlayer == Projectile.owner) {
+
+				// We can shoot if the button is pressed and there is still ammunition, and the player has items.
+				bool canShoot = player.channel;
+
+				if (canShoot) {
+					Projectile.timeLeft = 20;
 				}
 				else {
 					Projectile.Kill();
 				}
 			}
-
-			//Setting the position and direction
-			if (Projectile.velocity.X > 0f) {
-				Main.player[Projectile.owner].ChangeDir(1);
-			}
-			else {
-				if (Projectile.velocity.X < 0f) {
-					Main.player[Projectile.owner].ChangeDir(-1);
-				}
-			}
+			// Updating projectile parameters
+			Projectile.position = player.RotatedRelativePoint(player.MountedCenter, false, false) - Projectile.Size / 2f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == -1 ? (float)Math.PI : 0f);
 			Projectile.spriteDirection = Projectile.direction;
-			Main.player[Projectile.owner].ChangeDir(Projectile.direction);
-			Main.player[Projectile.owner].heldProj = Projectile.whoAmI;
-			Projectile.position.X = vector22.X - (float)(Projectile.width / 2);
-			Projectile.position.Y = vector22.Y - (float)(Projectile.height / 2);
-			// Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 2.355f;
 
-			//Rotation of Projectile and Item Use
-			if (Projectile.spriteDirection == -1) {
-				Projectile.rotation -= 1.57f;
-			}
-			/*
-			if (Main.player[Projectile.owner].direction == 1) {
-				Main.player[Projectile.owner].itemRotation = 
-					(float)Math.Atan2(
-						(double)(Projectile.velocity.Y * (float)Projectile.direction), 
-						(double)(Projectile.velocity.X * (float)Projectile.direction)
-					);
-			}
-			else {
-				Main.player[Projectile.owner].itemRotation = 
-					(float)Math.Atan2(
-						(double)(Projectile.velocity.Y * (float)Projectile.direction), 
-						(double)(Projectile.velocity.X * (float)Projectile.direction)
-					);
-			}*/
+			player.ChangeDir(Projectile.direction); // Update player direction
+			player.heldProj = Projectile.whoAmI; // The sprite is drawn in hand (If disabled, the sprite will be behind the player)
+			Projectile.timeLeft = 2; // As long as the weapon can shoot, we update the life time
+			player.SetDummyItemTime(2); // Always setting Item.useTime, Item.useAnimation to 2 frames so the Shoot method will never be called once again
+			// It is necessary for the player to understand the position of the item. (for example, how to rotate hand)
+			player.itemRotation = MathHelper.WrapAngle((float)Math.Atan2(Projectile.velocity.Y * (float)Projectile.direction, Projectile.velocity.X * (float)Projectile.direction)); 
+		}
 
-			//Make velocity really low towards mouse
-			Projectile.velocity.X = Projectile.velocity.X * (1f + (float)Main.rand.Next(-3, 4) * 0.01f);
-
-			//Animation and firing in terms of frameCounter and first counter
-			if (Projectile.frameCounter % (int)Projectile.ai[0] == 0) {
-				//Animation
-				if (Projectile.frame < 6) {
-					Projectile.frame += 1;
-				}
-				else {
-					Projectile.frame = 0;
-				}
-
-				//Firing towards the mouse
-				Vector2 vector = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-				float MouseX = (float)Main.mouseX + Main.screenPosition.X - vector.X;
-				float MouseY = (float)Main.mouseY + Main.screenPosition.Y - vector.Y;
-				float MouseDistance = (float)Math.Sqrt((double)(MouseX * MouseX + MouseY * MouseY));
-				float shootSpeed = 4f;
-				MouseDistance = shootSpeed / MouseDistance;
-				MouseX *= MouseDistance;
-				MouseY *= MouseDistance;
-				Projectile.NewProjectile(
-					new EntitySource_ItemUse_WithAmmo(
-						Main.player[Projectile.owner],
-						Main.item[ModContent.ItemType<Gun>()],
-						ProjectileID.Bullet
-					),
-					Projectile.position.X + Projectile.width / 2,
-					Projectile.position.Y + Projectile.height / 2, 
-					MouseX + (float)Main.rand.Next(-2, 0), 
-					MouseY + (float)Main.rand.Next(-2, 2), 
-					ProjectileID.Bullet, 
-					(int)(180f * 1), 
-					Projectile.knockBack, 
-					Projectile.owner, 0f, 0f
-				);
-				//Main.PlaySound(2, (int)Projectile.position.X, (int)Projectile.position.Y, 33);
-			}
-			Projectile.frameCounter++;
-
-			//Increases rate of animation/fire rate
-			if (Projectile.ai[1] > 60f) {
-				if (Projectile.ai[0] > 3f) {
-					//Decreasing first counter; First counter is set in the Item
-					Projectile.ai[0] -= 3f;
-				}
-				Projectile.ai[1] = 0;
-			}
-
-			//Update secondary counter
-			Projectile.ai[1] += 1f;
-
-			//Reset how long the projectile lives
-			Main.player[Projectile.owner].itemTime = 10;
-			Main.player[Projectile.owner].itemAnimation = 10;
-			Projectile.timeLeft = 999999;
+        public override void Kill(int timeLeft) {
+			Main.NewText("Died");
 		}
 	}
 }
