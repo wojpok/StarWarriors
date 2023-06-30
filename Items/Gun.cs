@@ -134,10 +134,11 @@ namespace StarWarriors.Items {
 			Projectile.ignoreWater = true;
 			Projectile.penetrate = -1;
 			Main.projFrames[Projectile.type] = 2;
+			Projectile.hide = true;
 		}
 
 		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Rainbow Devastation Rod");
+			DisplayName.SetDefault("Starfire Gun");
 		}
 
         public override void AI() {
@@ -149,25 +150,45 @@ namespace StarWarriors.Items {
 
 			//Using Timers for implementing shoot cooldowns
 			bool cooldown = true;
-			Projectile.ai[1] += 1f;
+			Projectile.ai[1] += 1;
 			if (Projectile.ai[1] >= 10) {
 				Projectile.ai[1] = 0;
 				cooldown = false;
 			}
 
-			//If cooldown is over and we inside current player(for multiplayer)
-			if (!cooldown && Main.myPlayer == Projectile.owner) {
+			
+			Vector2 rayFromMountedCenterToMouseCoordinates = Main.MouseWorld - mountedCenter;
+			//We normalize the ray so it coordinates from 0 to 1
+			Vector2 rotatingPoint = Vector2.Normalize(rayFromMountedCenterToMouseCoordinates);
+			//Offset the sprite from the ray (it cannot be (0, 0)). If you need to correct the position of the sprite
+			rotatingPoint *= new Vector2(x: 20, y: 20);
 
-				// We can shoot if the button is pressed and there is still ammunition, and the player has items.
-				bool canShoot = player.channel;
 
-				if (canShoot) {
-					Projectile.timeLeft = 20;
-				}
-				else {
-					Projectile.Kill();
-				}
+			if(!player.channel) {
+				Projectile.Kill();
 			}
+
+
+
+			//Sync in mulriplayer when velocity is change
+
+			if(!cooldown) {
+				Projectile.NewProjectile(
+					null,
+					mountedCenter, 
+					rayFromMountedCenterToMouseCoordinates, 
+					ProjectileID.Bullet, 
+					20,
+					1f, 
+					Projectile.owner
+				);
+			}
+
+
+			if (rotatingPoint.X != Projectile.velocity.X || rotatingPoint.Y != Projectile.velocity.Y)
+				Projectile.netUpdate = true;
+			Projectile.velocity = rotatingPoint;
+
 			// Updating projectile parameters
 			Projectile.position = player.RotatedRelativePoint(player.MountedCenter, false, false) - Projectile.Size / 2f;
 			Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == -1 ? (float)Math.PI : 0f);
@@ -178,7 +199,13 @@ namespace StarWarriors.Items {
 			Projectile.timeLeft = 2; // As long as the weapon can shoot, we update the life time
 			player.SetDummyItemTime(2); // Always setting Item.useTime, Item.useAnimation to 2 frames so the Shoot method will never be called once again
 			// It is necessary for the player to understand the position of the item. (for example, how to rotate hand)
-			player.itemRotation = MathHelper.WrapAngle((float)Math.Atan2(Projectile.velocity.Y * (float)Projectile.direction, Projectile.velocity.X * (float)Projectile.direction)); 
+			player.itemRotation = MathHelper.WrapAngle(
+				(float)
+				Math.Atan2(
+					Projectile.velocity.Y * (float)Projectile.direction, 
+					Projectile.velocity.X * (float)Projectile.direction
+				)
+			); 
 		}
 
         public override void Kill(int timeLeft) {
