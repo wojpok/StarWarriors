@@ -41,6 +41,10 @@ namespace StarWarriors.Items {
 					Projectile.frame = 0;
 				}
 			}
+			//if (Main.rand.NextBool(3)) {
+				// Emit dusts when the sword is swung
+				//Dust.NewDust(Projectile.position, 73);
+			//}
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity) {
