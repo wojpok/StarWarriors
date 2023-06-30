@@ -16,7 +16,7 @@ namespace StarWarriors.Items
 			DisplayName.SetDefault("Virtaul Insanity");
 			Tooltip.SetDefault(T.ParseTooltips(new() {
 				"Right click to summon huge commet",
-				"A gift from heaven",
+				"A gift from Zabrze",
 			}));
 
 		}
