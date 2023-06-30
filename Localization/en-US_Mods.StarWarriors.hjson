@@ -1,0 +1,38 @@
+DamageClasses.StarDefenderClass.DisplayName: Star Defender Class
+
+Items: {
+	BasicSword: {
+		DisplayName: Basic Sword
+		Tooltip: ""
+	}
+
+	DamageBooster: {
+		DisplayName: Damage Booster
+		Tooltip: ""
+	}
+
+	Gun: {
+		DisplayName: Gun
+		Tooltip: ""
+	}
+
+	VirtualInsanity: {
+		DisplayName: Virtual Insanity
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	Comet.DisplayName: Comet
+	GunVisuals.DisplayName: Gun Visuals
+}
+
+# NPCs.MyNPC.StandardDialogue1
+NPCs: {
+	MyNPC: {
+		DisplayName: Tomek Szkot
+		StandardDialogue1: Aaaaand..... CUT!
+		StandardDialogue2: Filming in 3, 2, 1 ...
+		Button2: Where am I filming?
+	}
+}

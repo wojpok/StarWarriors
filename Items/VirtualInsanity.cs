@@ -13,11 +13,13 @@ namespace StarWarriors.Items
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Virtaul Insanity");
-			Tooltip.SetDefault(T.ParseTooltips(new() {
-				"Right click to summon huge commet",
-				"A Zabrze Zabrze Zabrze",
-			}));
+			//DisplayName.SetDefault("Virtaul Insanity");
+			//Tooltip.SetDefault(T.ParseTooltips(new() {
+			//	"Right click to summon huge commet",
+			//	"A Zabrze Zabrze Zabrze",
+			//));
+
+			Item.value = Item.sellPrice(platinum: 999, gold: 99, silver: 99, copper: 99);
 
 		}
 
@@ -54,22 +56,23 @@ namespace StarWarriors.Items
 
 		public override void AddRecipes()
 		{
-			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.DirtBlock, 10);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.Register();
+			// Recipe recipe = CreateRecipe();
+			// recipe.AddIngredient(ItemID.DirtBlock, 10);
+			// recipe.AddTile(TileID.WorkBenches);
+			// recipe.Register();
 		}
 
+		/*
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit) {
 			target.AddBuff(BuffID.OnFire, 100);
 
-			/*player.AddBuff(BuffID.OnFire, 1000);
+			player.AddBuff(BuffID.OnFire, 1000);
 			player.Center.MoveTowards(
 				player.Center + new Vector2(1000f, 1000f), 1000f
 			);
 
-			Main.NewText("ABC", 150, 250, 150);*/
-		}
+			Main.NewText("ABC", 150, 250, 150);
+		}*/
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
 
@@ -131,5 +134,12 @@ namespace StarWarriors.Items
 
 			return true;
         }
+
+		public override void MeleeEffects(Player player, Rectangle hitbox) {
+			if (Main.rand.NextBool(3)) {
+				// Emit dusts when the sword is swung
+				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 73);
+			}
+		}
     }
 }

@@ -56,6 +56,7 @@ namespace StarWarriors.Items {
             Item.useAmmo = AmmoID.None; // The "
 
             Item.noUseGraphic = true;
+            Item.value = Item.sellPrice(platinum: 999, gold: 99, silver: 99, copper: 99);
         }
 
         private bool AltMode = false;
@@ -137,7 +138,7 @@ namespace StarWarriors.Items {
 		}
 
 		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Rainbow Devastation Rod");
+			// DisplayName.SetDefault("Rainbow Devastation Rod");
 		}
 
         public override void AI() {
@@ -181,7 +182,7 @@ namespace StarWarriors.Items {
 			player.itemRotation = MathHelper.WrapAngle((float)Math.Atan2(Projectile.velocity.Y * (float)Projectile.direction, Projectile.velocity.X * (float)Projectile.direction)); 
 		}
 
-        public override void Kill(int timeLeft) {
+        public override void OnKill(int timeLeft) {
 			Main.NewText("Died");
 		}
 	}

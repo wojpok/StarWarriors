@@ -6,8 +6,8 @@ namespace StarWarriors.Items {
 	[AutoloadEquip(EquipType.Shoes)]
 	public class DamageBooster : ModItem {
 		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Example Hermes Boots");
-			Tooltip.SetDefault("The wearer can run super fast");
+			// DisplayName.SetDefault("Example Hermes Boots");
+			// Tooltip.SetDefault("The wearer can run super fast");
 		}
 
 		public override void SetDefaults() {
@@ -15,7 +15,7 @@ namespace StarWarriors.Items {
 			Item.height = 24;
 			Item.accessory = true; // Makes this item an accessory.
 			Item.rare = ItemRarityID.Blue;
-			Item.value = Item.sellPrice(gold: 1); // Sets the item sell price to one gold coin.
+			Item.value = Item.sellPrice(platinum: 50); // Sets the item sell price to one gold coin.
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) {
