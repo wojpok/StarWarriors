@@ -171,7 +171,7 @@ namespace StarWarriors.NPCs
             // }
 
             //Else, the example bone merchant will not spawn if the above conditions are not met.
-            return 0.9f;
+            return 0.0f;
         }
 
         public override string GetChat()

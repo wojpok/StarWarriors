@@ -21,7 +21,7 @@ namespace StarWarriors.Items {
 		public override void UpdateAccessory(Player player, bool hideVisual) {
 			player.accRunSpeed = 60f; // The player's maximum run speed with accessories
 			player.moveSpeed += 10f; // The acceleration multiplier of the player's movement speed
-			player.GetDamage(StarDefenderClass.StarDamage) += 2f;
+			player.GetDamage(ModContent.GetInstance<StarDefenderClass>()) += 2f;
 		}
 	}
 }

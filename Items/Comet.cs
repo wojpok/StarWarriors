@@ -15,7 +15,7 @@ namespace StarWarriors.Items {
 			Projectile.scale = 2;
 			
 			Projectile.friendly = true;
-			Projectile.DamageType = StarDefenderClass.StarDamage;
+			Projectile.DamageType = ModContent.GetInstance<StarDefenderClass>();
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = 6000;
 

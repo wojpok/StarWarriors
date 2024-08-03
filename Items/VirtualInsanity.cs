@@ -29,7 +29,7 @@ namespace StarWarriors.Items
 		{
 			if(mode) {
 				Item.damage = 2137;
-				Item.DamageType = StarDefenderClass.StarDamage;
+				Item.DamageType = ModContent.GetInstance<StarDefenderClass>();
 			}
 			else {
 				Item.damage = 1337;

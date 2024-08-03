@@ -17,6 +17,8 @@ namespace StarWarriors {
         public override void Load() {
             base.Load();
         }
+
+        public readonly static Mod Instance = ModLoader.GetMod("StarWarriors");
     }
 
     class ModSound {

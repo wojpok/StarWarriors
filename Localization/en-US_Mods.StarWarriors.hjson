@@ -1,4 +1,7 @@
-DamageClasses.StarDefenderClass.DisplayName: Star Defender Class
+DamageClasses: {
+	StarDefenderClass.DisplayName: star damage
+	AirborneDamageClass.DisplayName: airborne damage
+}
 
 Items: {
 	BasicSword: {
@@ -20,11 +23,23 @@ Items: {
 		DisplayName: Virtual Insanity
 		Tooltip: ""
 	}
+
+	FeatherDagger: {
+		Tooltip:
+			'''
+			Thrown feathers stick to victims for a few second
+			Every fifth feather pulls all feathers and applies bleed to enemy
+
+			My feathers are a kingly gift!
+			'''
+		DisplayName: Feather Dagger
+	}
 }
 
 Projectiles: {
 	Comet.DisplayName: Comet
 	GunVisuals.DisplayName: Gun Visuals
+	FeatherDaggerProjectile.DisplayName: Feather Dagger Projectile
 }
 
 # NPCs.MyNPC.StandardDialogue1
@@ -34,5 +49,17 @@ NPCs: {
 		StandardDialogue1: Aaaaand..... CUT!
 		StandardDialogue2: Filming in 3, 2, 1 ...
 		Button2: Where am I filming?
+	}
+}
+
+Buffs: {
+	EnduranceBuff: {
+		DisplayName: Endurance Buff
+		Description: Mods.StarWarriors.Buffs.EnduranceBuff.Description
+	}
+
+	FeatherPullBleed: {
+		DisplayName: Feather Pull Bleed
+		Description: Mods.StarWarriors.Buffs.FeatherPullBleed.Description
 	}
 }
