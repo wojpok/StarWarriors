@@ -10,11 +10,12 @@ using Terraria.UI.Chat;
 using StarWarriors.Common.Buffs;
 using StarWarriors.Common.Player;
 using System.Reflection;
-using StarWarriors.Common.Projectiles;
 using System.Text.RegularExpressions;
 using rail;
+using StarWarriors.Content.Projectiles;
 
-namespace StarWarriors.Common.Commands {
+namespace StarWarriors.Common.Commands
+{
     interface IFieldModifier {
         public void TryApply(string arg);
         public string Elaborate();
@@ -75,7 +76,7 @@ namespace StarWarriors.Common.Commands {
         }
     }
 
-    internal class Modify : ModCommand {
+    internal class ModifyCommand : ModCommand {
         private readonly Dictionary<String, IFieldModifier> Fields = new () {
             {"k1", new FloatFieldModifier(typeof(FeatherDaggerProjectile), "PullingTimerReset")},
             {"k2", new FloatFieldModifier(typeof(FeatherDaggerProjectile), "PullingStrength")}

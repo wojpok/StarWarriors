@@ -1,12 +1,16 @@
 ﻿using Microsoft.Build.Evaluation;
 using StarWarriors.Common.Classes;
+using StarWarriors.Content.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarWarriors.Items {
-    public class FeatherDagger : ModItem {
-        public override void SetDefaults() {
+namespace StarWarriors.Content.Items.Weapons
+{
+    public class FeatherDagger : ModItem
+    {
+        public override void SetDefaults()
+        {
 
             // Common Properties
             Item.rare = ItemRarityID.Pink;
@@ -30,14 +34,15 @@ namespace StarWarriors.Items {
 
             // Projectile Properties
             Item.shootSpeed = 12f;
-            Item.shoot = ModContent.ProjectileType<Common.Projectiles.FeatherDaggerProjectile>(); // The projectile that will be thrown
+            Item.shoot = ModContent.ProjectileType<FeatherDaggerProjectile>(); // The projectile that will be thrown
             //Item.shoot = ProjectileID.WoodenArrowFriendly;
         }
 
         // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
-        public override void AddRecipes() {
+        public override void AddRecipes()
+        {
             CreateRecipe(1)
-                .AddIngredient(ItemID.DirtBlock, 1)
+                .AddIngredient(ItemID.DirtBlock, 20)
                 .Register();
         }
     }

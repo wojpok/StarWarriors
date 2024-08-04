@@ -1,4 +1,4 @@
-displayName = StarWarriors
-author = Maciek
+displayName = [In-Dev] StarWarriors
+author = Xelonidas & LiterallyMaciek
 version = 0.1
 modReferences = StructureHelper@2.5.3

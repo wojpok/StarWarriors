@@ -40,6 +40,7 @@ Projectiles: {
 	Comet.DisplayName: Comet
 	GunVisuals.DisplayName: Gun Visuals
 	FeatherDaggerProjectile.DisplayName: Feather Dagger Projectile
+	CometProjectile.DisplayName: Comet Projectile
 }
 
 # NPCs.MyNPC.StandardDialogue1
@@ -61,5 +62,10 @@ Buffs: {
 	FeatherPullBleed: {
 		DisplayName: Feather Pull Bleed
 		Description: Mods.StarWarriors.Buffs.FeatherPullBleed.Description
+	}
+
+	FeatherPullBleedDebuff: {
+		DisplayName: Feather Pull Bleed Debuff
+		Description: Mods.StarWarriors.Buffs.FeatherPullBleedDebuff.Description
 	}
 }

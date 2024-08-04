@@ -12,46 +12,57 @@ using Terraria.DataStructures;
 using StarWarriors.Common.Classes;
 using StarWarriors.Common.Buffs;
 
-namespace StarWarriors.Common.Projectiles {
-    internal class FeatherDaggerProjectile : ModProjectile {
-        public bool IsStickingToTarget {
+namespace StarWarriors.Content.Projectiles
+{
+    internal class FeatherDaggerProjectile : ModProjectile
+    {
+        public bool IsStickingToTarget
+        {
             get => Projectile.ai[0] == 1f;
             set => Projectile.ai[0] = value ? 1f : 0f;
         }
 
-        public int TargetWhoAmI {
+        public int TargetWhoAmI
+        {
             get => (int)Projectile.ai[1];
             set => Projectile.ai[1] = value;
         }
 
-        public int GravityDelayTimer {
+        public int GravityDelayTimer
+        {
             get => (int)Projectile.ai[2];
             set => Projectile.ai[2] = value;
         }
 
-        public bool IsPulling {
+        public bool IsPulling
+        {
             get => Projectile.ai[0] == 2f;
         }
 
-        public float PullingTimer {
+        public float PullingTimer
+        {
             get => Projectile.ai[2];
             set => Projectile.ai[2] = value;
         }
 
-        public float StickTimer {
+        public float StickTimer
+        {
             get => Projectile.localAI[0];
             set => Projectile.localAI[0] = value;
         }
 
-        public float PullingScaleBias {
+        public float PullingScaleBias
+        {
             get => Projectile.ai[1];
         }
 
-        public override void SetStaticDefaults() {
+        public override void SetStaticDefaults()
+        {
             ProjectileID.Sets.DontAttachHideToAlpha[Type] = true;
         }
 
-        public override void SetDefaults() {
+        public override void SetDefaults()
+        {
             Projectile.width = 16;
             Projectile.height = 16;
             Projectile.aiStyle = 0;
@@ -60,34 +71,40 @@ namespace StarWarriors.Common.Projectiles {
             Projectile.DamageType = ModContent.GetInstance<AirborneDamageClass>();
             Projectile.penetrate = 2;
             Projectile.timeLeft = 600; // The live time for the projectile (60 = 1 second, so 600 is 10 seconds)
-            Projectile.alpha = 0; 
+            Projectile.alpha = 0;
             Projectile.light = 0.5f;
             Projectile.ignoreWater = true;
-            Projectile.tileCollide = true; 
-            Projectile.hide = false; 
+            Projectile.tileCollide = true;
+            Projectile.hide = false;
         }
 
         private const int GravityDelay = 45;
 
-        public override void AI() {
-            if(IsPulling) {
+        public override void AI()
+        {
+            if (IsPulling)
+            {
                 PullingAI();
             }
-            else if (IsStickingToTarget) {
+            else if (IsStickingToTarget)
+            {
                 StickyAI();
             }
-            else {
+            else
+            {
                 NormalAI();
             }
         }
 
         private const float TextureRotation = 255f;
 
-        private void NormalAI() {
+        private void NormalAI()
+        {
             GravityDelayTimer++; // doesn't make sense.
 
             // For a little while, the javelin will travel with the same speed, but after this, the javelin drops velocity very quickly.
-            if (GravityDelayTimer >= GravityDelay) {
+            if (GravityDelayTimer >= GravityDelay)
+            {
                 GravityDelayTimer = GravityDelay;
 
                 // wind resistance
@@ -114,7 +131,8 @@ namespace StarWarriors.Common.Projectiles {
         }
 
         private const int StickTime = 60 * 15; // 15 seconds
-        private void StickyAI() {
+        private void StickyAI()
+        {
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             StickTimer += 1f;
@@ -122,46 +140,53 @@ namespace StarWarriors.Common.Projectiles {
             // Every 30 ticks, the javelin will perform a hit effect
             bool hitEffect = StickTimer % 30f == 0f;
             int npcTarget = TargetWhoAmI;
-            if (StickTimer >= StickTime || npcTarget < 0 || npcTarget >= 200) { // If the index is past its limits, kill it
+            if (StickTimer >= StickTime || npcTarget < 0 || npcTarget >= 200)
+            { // If the index is past its limits, kill it
                 Projectile.Kill();
             }
-            else if (Main.npc[npcTarget].active && !Main.npc[npcTarget].dontTakeDamage) {
+            else if (Main.npc[npcTarget].active && !Main.npc[npcTarget].dontTakeDamage)
+            {
                 //Projectile.Center = Main.npc[npcTarget].Center - Projectile.velocity.RotatedBy(Main.npc[npcTarget].rotation - RotationOnHit, Main.npc[npcTarget].Center);
                 var npc = Main.npc[npcTarget];
-                
+
                 Projectile.Center = npc.Center - Projectile.velocity * 1.25f;
                 Projectile.gfxOffY = Main.npc[npcTarget].gfxOffY;
                 //if (hitEffect) {
-                    // Perform a hit effect here, causing the npc to react as if hit.
-                    // Note that this does NOT damage the NPC, the damage is done through the debuff.
-                    //Main.npc[npcTarget].HitEffect(0, 1.0);
+                // Perform a hit effect here, causing the npc to react as if hit.
+                // Note that this does NOT damage the NPC, the damage is done through the debuff.
+                //Main.npc[npcTarget].HitEffect(0, 1.0);
                 //}
             }
-            else { // Otherwise, kill the projectile
+            else
+            { // Otherwise, kill the projectile
                 Projectile.Kill();
             }
         }
 
         public static float PullingTimerReset = 60f;
-        public static float PullingStrength   = 0.25f;
+        public static float PullingStrength = 0.25f;
 
-        private void PullingAI() {
+        private void PullingAI()
+        {
             //Func<float, float> Gradient = (x) => (float) Math.Pow(-Math.E, -6.9f * x) + 1f;
-            Func<float, float> Gradient = (x) => 0.04f / (float) (x - -0.038f) + -0.038f;
+            Func<float, float> Gradient = (x) => 0.04f / (float)(x - -0.038f) + -0.038f;
 
-            
-            if(PullingTimer == PullingTimerReset) {
+
+            if (PullingTimer == PullingTimerReset)
+            {
                 SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             }
 
-            if (PullingTimerReset <= PullingTimer + 5) {
+            if (PullingTimerReset <= PullingTimer + 5)
+            {
                 // On pulling begin make ripping blood effect
                 Vector2 usePos = Projectile.position;
 
                 Vector2 rotationVector = (Projectile.rotation - MathHelper.ToRadians(TextureRotation)).ToRotationVector2();
                 usePos += rotationVector * 16f;
 
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < 20; i++)
+                {
                     Dust dust = Dust.NewDustDirect(usePos, Projectile.width, Projectile.height, DustID.Blood);
                     dust.position = (dust.position + Projectile.Center) / 2f;
                     dust.velocity += rotationVector * 2f;
@@ -173,7 +198,8 @@ namespace StarWarriors.Common.Projectiles {
 
             PullingTimer -= 1f;
 
-            if (PullingTimer <= 0) {
+            if (PullingTimer <= 0)
+            {
                 Projectile.Kill();
                 return;
             }
@@ -181,26 +207,30 @@ namespace StarWarriors.Common.Projectiles {
             Vector2 vel = new Vector2(0, PullingStrength * PullingScaleBias).RotatedBy(Projectile.rotation);
 
             // Projectile.velocity *= (float) Math.Log(1f + (PullingTimer / PullingTimerReset));
-            Projectile.position -= vel * (Gradient(1f - (PullingTimer / PullingTimerReset)));
+            Projectile.position -= vel * Gradient(1f - PullingTimer / PullingTimerReset);
 
-            Projectile.alpha = (int) ((1f - PullingTimer / PullingTimerReset) * 255);
+            Projectile.alpha = (int)((1f - PullingTimer / PullingTimerReset) * 255);
         }
 
-        public override void OnKill(int timeLeft) {
-            
+        public override void OnKill(int timeLeft)
+        {
+
 
             // Make sure to only spawn items if you are the projectile owner.
             // This is an important check as Kill() is called on clients, and you only want the item to drop once
-            if (Projectile.owner == Main.myPlayer) {
+            if (Projectile.owner == Main.myPlayer)
+            {
                 // Drop a javelin item, 1 in 18 chance (~5.5% chance)
                 int item = 0;
-                if (Main.rand.NextBool(18)) {
+                if (Main.rand.NextBool(18))
+                {
                     //item = Item.NewItem(Projectile.GetSource_DropAsItem(), Projectile.getRect(), ModContent.ItemType<ExampleJavelin>());
                 }
 
                 // Sync the drop for multiplayer
                 // Note the usage of Terraria.ID.MessageID, please use this!
-                if (Main.netMode == NetmodeID.MultiplayerClient && item >= 0) {
+                if (Main.netMode == NetmodeID.MultiplayerClient && item >= 0)
+                {
                     NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
                 }
             }
@@ -209,7 +239,8 @@ namespace StarWarriors.Common.Projectiles {
         private const int MaxStickingFeathers = 5;
         private readonly Point[] stickingFeathers = new Point[MaxStickingFeathers + 1];
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
             IsStickingToTarget = true;
             TargetWhoAmI = target.whoAmI;
 
@@ -217,7 +248,7 @@ namespace StarWarriors.Common.Projectiles {
             Projectile.velocity = target.Center - Projectile.Center;
             Projectile.netUpdate = true;
             Projectile.damage = 0;
-            
+
             // Dumb use case, but seems valid I think
             // This method mutates Point array to find all instances of specified projectiles
             // and only if there is not enough space a projectile is evicted.
@@ -226,20 +257,23 @@ namespace StarWarriors.Common.Projectiles {
 
             int stuckFeathers = 0;
 
-            foreach(Point feather in stickingFeathers) {
+            foreach (Point feather in stickingFeathers)
+            {
                 if (feather.Y != 0)
                     stuckFeathers++;
             }
 
             // Main.NewText(stuckFeathers);
 
-            if (stuckFeathers >= MaxStickingFeathers) {
+            if (stuckFeathers >= MaxStickingFeathers)
+            {
                 Vector2 EnemySize = Main.npc[TargetWhoAmI].Size;
                 var Scale = EnemySize.X + EnemySize.Y;
 
-                target.AddBuff(ModContent.BuffType<FeatherPullBleed>(), 5 * 60);
+                target.AddBuff(ModContent.BuffType<FeatherPullBleedDebuff>(), 5 * 60);
 
-                foreach (Point feather in stickingFeathers) {
+                foreach (Point feather in stickingFeathers)
+                {
                     //Main.projectile[feather.X].Kill();
                     Main.projectile[feather.X].ai[0] = 2f;
                     Main.projectile[feather.X].ai[1] = Scale;
@@ -253,16 +287,19 @@ namespace StarWarriors.Common.Projectiles {
             }
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac) {
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
             // For going through platforms and such, javelins use a tad smaller size
             width = height = 10;
             return true;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
             // By shrinking target hitboxes by a small amount, this projectile only hits if it more directly hits the target.
             // This helps the javelin stick in a visually appealing place within the target sprite.
-            if (targetHitbox.Width > 8 && targetHitbox.Height > 8) {
+            if (targetHitbox.Width > 8 && targetHitbox.Height > 8)
+            {
                 targetHitbox.Inflate(-targetHitbox.Width / 8, -targetHitbox.Height / 8);
             }
             // Return if the hitboxes intersects, which means the javelin collides or not

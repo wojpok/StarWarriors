@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using StarWarriors.Items;
+using StarWarriors.Content.Items.Equipables;
+using StarWarriors.Content.Items.Weapons;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,11 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
-namespace StarWarriors.NPCs
+namespace StarWarriors.Content.NPCs
 {
-    public class MyNPC : ModNPC {
+    // Currently disabled -> Spawn rate is set to 0 
+    public class MyNPC : ModNPC
+    {
         private static Profiles.StackedNPCProfile NPCProfile;
         private static Asset<Texture2D> shimmerGun;
 
@@ -26,7 +29,7 @@ namespace StarWarriors.NPCs
             new("Mods.StarWarriors.NPCs.MyNPC.StandardDialogue2", null),
         ];
 
-        public int chosenDialogue = Math.Abs((new Random()).Next()) % places.Count;
+        public int chosenDialogue = Math.Abs(new Random().Next()) % places.Count;
 
         public override void Load()
         {
@@ -61,7 +64,7 @@ namespace StarWarriors.NPCs
 
             // Connects this NPC with a custom emote.
             // This makes it when the NPC is in the world, other NPCs will "talk about him".
-           //  NPCID.Sets.FaceEmote[Type] = ModContent.EmoteBubbleType<ExampleBoneMerchantEmote>();
+            //  NPCID.Sets.FaceEmote[Type] = ModContent.EmoteBubbleType<ExampleBoneMerchantEmote>();
 
             //The vanilla Bone Merchant cannot interact with doors (open or close them, specifically), but if you want your NPC to be able to interact with them despite this,
             //uncomment this line below.
@@ -78,7 +81,7 @@ namespace StarWarriors.NPCs
 
             NPCProfile = new Profiles.StackedNPCProfile(
                 new Profiles.DefaultNPCProfile(Texture, -1)
-                // new Profiles.DefaultNPCProfile(Texture + "_Shimmer", -1)
+            // new Profiles.DefaultNPCProfile(Texture + "_Shimmer", -1)
             );
         }
 
@@ -108,16 +111,16 @@ namespace StarWarriors.NPCs
         {
             // We can use AddRange instead of calling Add multiple times in order to add multiple items at once
             // bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-			// 	// Sets the preferred biomes of this town NPC listed in the bestiary.
-			// 	// With Town NPCs, you usually set this to what biome it likes the most in regards to NPC happiness.
-			// 	BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+            // 	// Sets the preferred biomes of this town NPC listed in the bestiary.
+            // 	// With Town NPCs, you usually set this to what biome it likes the most in regards to NPC happiness.
+            // 	BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
             // 
-			// 	// Sets your NPC's flavor text in the bestiary.
-			// 	new FlavorTextBestiaryInfoElement("Hailing from a mysterious greyscale cube world, the Example Bone Merchant will show you how to make a mysterious merchant underground with tModLoader."),
+            // 	// Sets your NPC's flavor text in the bestiary.
+            // 	new FlavorTextBestiaryInfoElement("Hailing from a mysterious greyscale cube world, the Example Bone Merchant will show you how to make a mysterious merchant underground with tModLoader."),
             // 
-			// 	// You can add multiple elements if you really wanted to
-			// 	// You can also use localization keys (see Localization/en-US.lang)
-			// 	new FlavorTextBestiaryInfoElement("Mods.ExampleMod.Bestiary.ExampleBoneMerchant")
+            // 	// You can add multiple elements if you really wanted to
+            // 	// You can also use localization keys (see Localization/en-US.lang)
+            // 	new FlavorTextBestiaryInfoElement("Mods.ExampleMod.Bestiary.ExampleBoneMerchant")
             // });
         }
 
@@ -195,11 +198,13 @@ namespace StarWarriors.NPCs
 
         public override void OnChatButtonClicked(bool firstButton, ref string shop)
         {
-            if (!firstButton && places[chosenDialogue].Item2 != null) {
+            if (!firstButton && places[chosenDialogue].Item2 != null)
+            {
                 SoundEngine.PlaySound(places[chosenDialogue].Item2);
             }
 
-            if (firstButton) {
+            if (firstButton)
+            {
                 shop = "Shop";
             }
         }

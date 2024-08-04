@@ -11,7 +11,7 @@ using StarWarriors.Common.Buffs;
 using StarWarriors.Common.Player;
 
 namespace StarWarriors.Common.Commands {
-    internal class Endurance : ModCommand {
+    internal class EnduranceCommand : ModCommand {
         public override CommandType Type
             => CommandType.Chat;
 

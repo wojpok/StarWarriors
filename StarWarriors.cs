@@ -20,10 +20,4 @@ namespace StarWarriors {
 
         public readonly static Mod Instance = ModLoader.GetMod("StarWarriors");
     }
-
-    class ModSound {
-        public static SoundStyle Pipe        = new("StarWarriors/Assets/Audio/pipe");
-        // public static SoundStyle NPCwelcome1 = new("StarWarriors/Assets/Audio/npc-welcome-1");
-        // public static SoundStyle NPCwelcome2 = new("StarWarriors/Assets/Audio/npc-welcome-2");
-    }
 }

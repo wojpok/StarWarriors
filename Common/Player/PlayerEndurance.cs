@@ -14,7 +14,7 @@ namespace StarWarriors.Common.Player {
 
 
         public override void ResetEffects() {
-            DamageReduction = 1.0f;
+            DamageReduction = 0.0f;
         }
 
         // public override void OnHurt(Terraria.Player.HurtInfo info) {

@@ -9,7 +9,7 @@ using Terraria;
 using StarWarriors.Common.GlobalNPCs;
 
 namespace StarWarriors.Common.Buffs {
-    internal class FeatherPullBleed : ModBuff {
+    internal class FeatherPullBleedDebuff : ModBuff {
         public override void SetStaticDefaults() {
             // BuffID.Sets.GrantImmunityWith[Type].Add(BuffID.BoneJavelin);
         }

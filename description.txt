@@ -1,1 +1,14 @@
-ModName is a pretty cool mod, it does...this. Modify this file with a description of your mod.
+[In-Dev] StarWarriors
+
+A Terraria Content Mod in early in-dev version
+
+Requires StructureHelper utility mod
+
+Preview Content:
+
+- Airborne Class
+  A damage class that is (for now) 100% compatible with Ranged Class.
+
+- Feather Dagger
+  An Airborne Class Weapon, crafted in hand using 20 dirt.
+
