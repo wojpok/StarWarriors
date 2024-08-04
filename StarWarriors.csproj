@@ -16,6 +16,9 @@
     <None Remove="Content\Projectiles\FeatherDaggerProjectile.png" />
     <None Remove="Content\Items\FeatherDagger.png" />
     <None Remove="Content\NPCs\MyNPC.png" />
+    <None Remove="description_workshop.txt" />
+    <None Remove="icon.png" />
+    <None Remove="icon_workshop.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="StructureHelper">

@@ -1,0 +1,15 @@
+[h1][noparse][In-Dev] StarWarriors[/noparse][/h1]
+
+A Terraria Content Mod in early in-dev version
+
+Requires StructureHelper utility mod
+
+Available preview Content:
+
+[list]
+	[*] Airborne Class
+		A damage class which is (for now) 100% compatible with Ranged Class.
+
+	[*] Feather Dagger
+		An Airborne Class Weapon, crafted in hand using 20 dirt.
+[/list]
